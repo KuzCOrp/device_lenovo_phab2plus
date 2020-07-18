@@ -1,0 +1,41 @@
+# ==============================================
+# Policy File of /system/binmemsicd3524x Executable File 
+
+
+# ==============================================
+# Type Declaration
+# ==============================================
+
+type memsicd3524x_exec , exec_type, file_type;
+type memsicd3524x ,domain;
+# ==============================================
+# MTK Policy Rule
+# ==============================================
+
+init_daemon_domain(memsicd3524x)
+allow memsicd3524x gsensor_device:chr_file { open read write ioctl };
+allow memsicd3524x msensor_device:chr_file { open read write ioctl };
+allow memsicd3524x system_data_file:dir { create setattr open write};
+allow memsicd3524x msensor_device:chr_file { open read write ioctl };
+allow memsicd3524x gsensor_device:chr_file { open read write ioctl };
+allow memsicd3524x input_device:dir { search open read write };
+allow memsicd3524x input_device:file { open read write ioctl };
+allow memsicd3524x sensor_data_file:dir {search open read write create getattr setattr };
+allow memsicd3524x sensor_data_file:file { open read write create append unlink ioctl getattr setattr };
+allow memsicd3524x system_sensor_data_file:dir { search open read create };
+allow memsicd3524x system_sensor_data_file:file { open read create write };
+allow memsicd3524x bmm050_sensor_log_file:file { open create read write };
+allow memsicd3524x sysfs:file write;
+allow memsicd3524x sysfs_gsensor_file:dir { search open read create };
+allow memsicd3524x sysfs_gsensor_file:file { open read create write };
+allow memsicd3524x sysfs_gsensor_file:lnk_file read;
+allow memsicd3524x sysfs_msensor_file:dir { search open read create };
+allow memsicd3524x sysfs_msensor_file:file { open read create write };
+allow memsicd3524x sysfs_msensor_file:lnk_file read;
+# Operate data partation directly, need modify later,e.g. use "data/misc/sensor".
+# for msensor daemon access "data/misc".
+file_type_auto_trans(memsicd3524x, system_data_file, msensor_data_file)
+allow memsicd3524x system_data_file:dir { create setattr };
+allow memsicd3524x msensor_data_file:file { open write read create setattr};
+allow memsicd3524x shell_data_file:dir { search };
+allow memsicd3524x shell_data_file:file { open read write create append unlink ioctl getattr setattr };
